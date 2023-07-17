@@ -1,0 +1,82 @@
+import telebot #импортируем библиотеку
+from telebot import types
+TOKEN = '6294094594:AAFsKjLh32XM5nyfTUuerQOMkZzyI9QLCpY' #указание токена нашего бота
+
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True) #создание разметки
+    item1 = types.KeyboardButton('Есть ли wi-fi?') #прописываем необходимые команды
+    item2 = types.KeyboardButton('Можно ли выходить за пределы лагеря?')
+    item3 = types.KeyboardButton('Распорядок дня')
+    item4 = types.KeyboardButton('Список необходимых вещей')
+    item5 = types.KeyboardButton('Есть ли магазин поблизости?')
+    item6 = types.KeyboardButton('Обзор дома')
+    item7 = types.KeyboardButton('Душевые')
+    item8 = types.KeyboardButton('Столовая')
+
+    markup.add(item1, item2, item3, item4, item5, item6, item7, item8) #добавляем команды к меню
+
+@bot.message_handler(content_types=['text'])
+def bot_message(message):
+    if message.chat.type == 'private':
+        if message.text == 'Есть ли wi-fi?': #прописываем ответы на команды
+            bot.send_message(message.chat.id, 'К сожалению, в СОЛ "Ждановец" нет wi-fi, поэтому все студенты пользуются мобильным интернетом. На территории лагеря ловят все операторы связи')
+        elif message.text == 'Можно ли выходить за пределы лагеря?':
+            bot.send_message(message.chat.id, 'За пределы лагеря можно выходить на несколько часов, если в это время не проводятся мероприятия. Однако если Вы хотите выехать за пределы лагеря на продолжительное время, то Вам нужно будет написать заявление')
+        elif message.text == 'Распорядок дня':
+            photo = open('C:/Users/ponom/PycharmProjects/ourbot/pic.png', 'rb') #добавляем и читаем фотографии
+            bot.send_photo(message.chat.id, photo)
+            photo.close()
+        elif message.text == 'Список необходимых вещей':
+            photo = open('C:/Users/ponom/Downloads/veshi.png', 'rb')
+            bot.send_photo(message.chat.id, photo)
+            photo.close()
+        elif message.text == 'Есть ли магазин поблизости?':
+            photo1 = open('C:/Users/ponom/Desktop/shop1.jpg', 'rb')
+            photo2 = open('C:/Users/ponom/Desktop/shop2.jpg', 'rb')
+            bot.send_photo(message.chat.id, photo1)
+            bot.send_photo(message.chat.id, photo2)
+            bot.send_message(message.chat.id, 'Самый ближайший магазин находится в д. Большой Суходол, 101. Идти до него 2,8 км. Чуть подальше есть магазин «магнит». Находится по адресу д. Федурино, ул. Центральная, 25. Идти до него 3,6 км.')
+            photo1.close()
+            photo2.close()
+        elif message.text == 'Обзор дома':
+            ph1 = open('C:/Users/ponom/Desktop/room1.jpg', 'rb')
+            ph2 = open('C:/Users/ponom/Desktop/room2.jpg', 'rb')
+            ph3 = open('C:/Users/ponom/Desktop/room3.jpg', 'rb')
+            ph4 = open('C:/Users/ponom/Desktop/room4.jpg', 'rb')
+            bot.send_photo(message.chat.id, ph1)
+            bot.send_photo(message.chat.id, ph2)
+            bot.send_photo(message.chat.id, ph3)
+            bot.send_photo(message.chat.id, ph4)
+            bot.send_message(message.chat.id, 'Проживание в 1-2х комнатных деревянных домах с верандой по 2-3 человека в комнате. Кровати деревянные. Студенческие дома расположены компактно и в большинстве канализированы, вода холодная.')
+            ph1.close()
+            ph2.close()
+            ph3.close()
+            ph4.close()
+        elif message.text == 'Душевые':
+            ph = open('C:/Users/ponom/Desktop/bathroom.jpg', 'rb')
+            bot.send_photo(message.chat.id, ph)
+            bot.send_message(message.chat.id, 'На территории имеются постирочное отделение, 8 мужских и 8 женских душевых. Парная баня 1 раз в неделю')
+            ph.close()
+        elif message.text == 'Столовая':
+            ph1 = open('C:/Users/ponom/Desktop/food.jpg', 'rb')
+            ph2 = open('C:/Users/ponom/Desktop/food2.jpg', 'rb')
+            ph3 = open('C:/Users/ponom/Desktop/food3.jpg', 'rb')
+            ph4 = open('C:/Users/ponom/Desktop/food4.jpg', 'rb')
+            ph5 = open('C:/Users/ponom/Desktop/food5.jpg', 'rb')
+            bot.send_photo(message.chat.id, ph1)
+            bot.send_photo(message.chat.id, ph2)
+            bot.send_photo(message.chat.id, ph3)
+            bot.send_photo(message.chat.id, ph4)
+            bot.send_photo(message.chat.id, ph5)
+            bot.send_message(message.chat.id, 'Столовая работает по расписанию. Нужно взять поднос и набрать себе еду (на подносах кушать нельзя). Грязные тарелки также нужно за собой убрать')
+            ph1.close()
+            ph2.close()
+            ph3.close()
+            ph4.close()
+            ph5.close()
+
+# Запускаем бота
+bot.polling(none_stop=True)
